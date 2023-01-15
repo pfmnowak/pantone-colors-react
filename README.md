@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# product-list-react
+
+This React app displays the list of products form the API and allows to filter them and view their details.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Used technologies
+
+- React
+- TypeScript
+- MUI
+- Eslint & Prettier
 
 ## Available Scripts
 
