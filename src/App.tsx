@@ -1,11 +1,11 @@
 import './App.css';
+import ProductsPage from './components/ProductsPage';
 
 function App() {
 	return (
 		<div className='App'>
 			<header className='App-header'>
-				<p>input field</p>
-				<p>table</p>
+				<ProductsPage />
 			</header>
 		</div>
 	);
