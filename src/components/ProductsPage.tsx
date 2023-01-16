@@ -16,12 +16,12 @@ const ProductsPage = () => {
 		<Paper elevation={3} sx={{ padding: '2rem' }}>
 			<TextField id='outlined-number' label='Search id' type='number' />
 			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 650 }} aria-label='simple table'>
+				<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
 					<TableHead>
 						<TableRow>
 							<TableCell>ID</TableCell>
 							<TableCell>Name</TableCell>
-							<TableCell align='right'>Year</TableCell>
+							<TableCell align='center'>Year</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -37,7 +37,7 @@ const ProductsPage = () => {
 									{item.id}
 								</TableCell>
 								<TableCell>{item.name}</TableCell>
-								<TableCell align='right'>{item.year}</TableCell>
+								<TableCell align='center'>{item.year}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
