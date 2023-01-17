@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 type Product = { id: number; name: string; year: number; color: string; pantone_value: string };
 
 const ROWS_PER_PAGE = 5;
-const ROW_HEIGHT = 4;
+const ROW_HEIGHT = 6;
 
 const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
@@ -58,7 +58,7 @@ const ProductsPage = () => {
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem' }}>
 			<TextField id='outlined-number' label='Search id' type='number' />
-			<TableContainer component={Paper}>
+			<TableContainer component={Paper} sx={{ backgroundColor: '#000' }}>
 				<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
 					<TableHead>
 						<TableRow>
@@ -74,7 +74,13 @@ const ProductsPage = () => {
 								sx={{
 									backgroundColor: `${item.color}`,
 									height: `${ROW_HEIGHT}rem`,
-									'&:last-child td, &:last-child th': { border: 0 },
+									transition: 'all 0.2s',
+									opacity: 0.8,
+									'&:hover': {
+										opacity: 1,
+										cursor: 'pointer',
+										height: `${ROW_HEIGHT + 1}rem`,
+									},
 								}}
 							>
 								<TableCell component='th' scope='row'>
@@ -85,7 +91,7 @@ const ProductsPage = () => {
 							</TableRow>
 						))}
 						{emptyRows > 0 && (
-							<TableRow style={{ height: `${ROW_HEIGHT * emptyRows}rem` }}>
+							<TableRow sx={{ height: `${ROW_HEIGHT * emptyRows}rem` }}>
 								<TableCell colSpan={3} />
 							</TableRow>
 						)}
