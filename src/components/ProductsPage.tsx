@@ -56,9 +56,12 @@ const ProductsPage = () => {
 	};
 
 	return (
-		<Paper elevation={3} sx={{ padding: '2rem' }}>
+		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
 			<TextField id='outlined-number' label='Search id' type='number' />
-			<TableContainer component={Paper} sx={{ backgroundColor: '#000' }}>
+			<TableContainer
+				component={Paper}
+				sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
+			>
 				<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
 					<TableHead>
 						<TableRow>
@@ -77,9 +80,9 @@ const ProductsPage = () => {
 									transition: 'all 0.2s',
 									opacity: 0.8,
 									'&:hover': {
-										opacity: 1,
+										opacity: 0.99,
 										cursor: 'pointer',
-										height: `${ROW_HEIGHT + 1}rem`,
+										height: `${ROW_HEIGHT + 0.7}rem`,
 									},
 								}}
 							>

@@ -17,6 +17,14 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiTableCell: {
+			styleOverrides: {
+				root: {
+					fontWeight: 600,
+					border: 'none',
+				},
+			},
+		},
 		MuiTableHead: {
 			styleOverrides: {
 				root: {
@@ -26,12 +34,13 @@ const theme = createTheme({
 				},
 			},
 		},
-		MuiTableCell: {
+		MuiTableBody: {
 			styleOverrides: {
 				root: {
-					fontWeight: 600,
-					fontSize: '1.3rem',
-					borderBottom: '0.7rem solid black',
+					'& .MuiTableCell-root': {
+						fontSize: '1.3rem',
+						borderBottom: '0.7rem solid transparent',
+					},
 				},
 			},
 		},
