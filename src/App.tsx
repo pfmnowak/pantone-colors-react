@@ -1,4 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import ProductsPage from './components/ProductsPage';
 
@@ -40,6 +41,7 @@ const theme = createTheme({
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
+			<CssBaseline />
 			<div className='App'>
 				<header className='App-header'>
 					<ProductsPage />
