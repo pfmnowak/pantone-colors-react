@@ -15,12 +15,16 @@ import { useEffect, useRef, useState } from 'react';
 type Product = { id: number; name: string; year: number; color: string; pantone_value: string };
 
 const ROWS_PER_PAGE = 5;
+const ROW_HEIGHT = 4;
 
 const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
 	const [productsCount, setProductsCount] = useState(0);
 	const [page, setPage] = useState(0);
 	const effectRan = useRef(false);
+
+	// Avoid a layout jump when reaching the last page with empty rows.
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * ROWS_PER_PAGE - productsCount) : 0;
 
 	useEffect(() => {
 		if (effectRan.current) {
@@ -69,6 +73,7 @@ const ProductsPage = () => {
 								key={item.id}
 								sx={{
 									backgroundColor: `${item.color}`,
+									height: `${ROW_HEIGHT}rem`,
 									'&:last-child td, &:last-child th': { border: 0 },
 								}}
 							>
@@ -79,6 +84,11 @@ const ProductsPage = () => {
 								<TableCell align='center'>{item.year}</TableCell>
 							</TableRow>
 						))}
+						{emptyRows > 0 && (
+							<TableRow style={{ height: `${ROW_HEIGHT * emptyRows}rem` }}>
+								<TableCell colSpan={3} />
+							</TableRow>
+						)}
 					</TableBody>
 					<TableFooter>
 						<TableRow>
