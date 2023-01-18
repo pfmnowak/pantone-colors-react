@@ -11,8 +11,8 @@ import {
 	TextField,
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-
-type Product = { id: number; name: string; year: number; color: string; pantone_value: string };
+import { Product } from '../types/types';
+import ProductDetailsModal from './ProductDetailsModal';
 
 const ROWS_PER_PAGE = 5;
 const ROW_HEIGHT = 6;
@@ -21,7 +21,15 @@ const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
 	const [productsCount, setProductsCount] = useState(0);
 	const [page, setPage] = useState(0);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const effectRan = useRef(false);
+
+	const handleOpen = (product: Product) => {
+		setModalOpen(true);
+		setProduct(product);
+	};
+	const handleClose = () => setModalOpen(false);
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * ROWS_PER_PAGE - productsCount) : 0;
@@ -74,6 +82,7 @@ const ProductsPage = () => {
 						{productsList?.map(item => (
 							<TableRow
 								key={item.id}
+								onClick={() => handleOpen(item)}
 								sx={{
 									backgroundColor: `${item.color}`,
 									height: `${ROW_HEIGHT}rem`,
@@ -113,6 +122,9 @@ const ProductsPage = () => {
 					</TableFooter>
 				</Table>
 			</TableContainer>
+			{modalOpen && product && (
+				<ProductDetailsModal open={modalOpen} onClose={handleClose} product={product} />
+			)}
 		</Paper>
 	);
 };
