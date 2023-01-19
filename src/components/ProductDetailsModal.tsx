@@ -1,5 +1,6 @@
 import { Box, Modal, Typography } from '@mui/material';
 import { Product } from '../types/types';
+import CopyToClipboardButton from './CopyToClipboardButton';
 
 type ModalProps = {
 	open: boolean;
@@ -100,6 +101,7 @@ const ProductDetailsModal = ({ open, onClose, product }: ModalProps) => {
 				</Typography>
 				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
 					{product.color}
+					<CopyToClipboardButton text={product.color} />
 				</Typography>
 			</Box>
 		</Modal>
