@@ -12,7 +12,6 @@ const SearchField = ({ setProductId }: SearchFieldProps) => {
 
 	useEffect(() => {
 		if (effectRan.current) {
-			console.log('effect raaaan | Search Field');
 			const delayFn = setTimeout(() => handleInputChange(searchValue), 500);
 			return () => clearTimeout(delayFn);
 		}
