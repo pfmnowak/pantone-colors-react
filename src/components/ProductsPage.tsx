@@ -98,7 +98,7 @@ const ProductsPage = () => {
 								<TableCell component='th' scope='row'>
 									{item.id}
 								</TableCell>
-								<TableCell>{item.name}</TableCell>
+								<TableCell sx={{ textTransform: 'capitalize' }}>{item.name}</TableCell>
 								<TableCell align='center'>{item.year}</TableCell>
 							</TableRow>
 						))}

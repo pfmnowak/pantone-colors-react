@@ -15,9 +15,12 @@ const ProductDetailsModal = ({ open, onClose, product }: ModalProps) => {
 		transform: 'translate(-50%, -50%)',
 		width: 400,
 		bgcolor: 'background.paper',
-		border: '2px solid #000',
+		borderRadius: 1,
 		boxShadow: 24,
 		p: 4,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
 	};
 
 	return (
@@ -28,17 +31,75 @@ const ProductDetailsModal = ({ open, onClose, product }: ModalProps) => {
 			aria-describedby='modal-modal-description'
 		>
 			<Box sx={styleModal}>
-				<Typography id='modal-modal-title' variant='h6' component='h2'>
-					{product.name}
-				</Typography>
+				<Box
+					className='pantone-card'
+					sx={{
+						height: '226px',
+						minWidth: '140px',
+						maxWidth: '140px',
+						display: 'flex',
+						flexDirection: 'column',
+						boxShadow:
+							'5px 5px 5px 0px rgba(0,0,0,0.1), 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);',
+					}}
+				>
+					<Box
+						className='pantone-card__color'
+						sx={{
+							background: product.color,
+							flex: 1,
+							margin: '5px',
+						}}
+					></Box>
+					<Box
+						className='pantone-card__text'
+						sx={{
+							padding: '5px 0 1px 10px',
+							// display: 'flex',
+						}}
+					>
+						<Box
+							className='text--main'
+							sx={{
+								fontFamily: 'Lato',
+								fontWeight: 700,
+								display: 'flex',
+							}}
+						>
+							PANTONE
+							<Typography component={'span'} sx={{ fontSize: '10px' }}>
+								&reg;
+							</Typography>
+						</Box>
+						<Typography
+							className='text--sub'
+							sx={{
+								fontFamily: 'Lato',
+								fontWeight: 700,
+								fontSize: '14px',
+							}}
+						>
+							{product.pantone_value}
+						</Typography>
+						<Typography
+							className='text--sub'
+							sx={{
+								fontFamily: 'Lato',
+								fontWeight: 700,
+								fontSize: '14px',
+								textTransform: 'capitalize',
+							}}
+						>
+							{product.name}
+						</Typography>
+					</Box>
+				</Box>
+
 				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
-					{product.pantone_value}
+					Color of the Year: {product.year}
 				</Typography>
 				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
 					{product.color}
-				</Typography>
-				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
-					Year: {product.year}
 				</Typography>
 			</Box>
 		</Modal>
