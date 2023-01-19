@@ -5,6 +5,14 @@ import ProductsPage from './components/ProductsPage';
 
 const theme = createTheme({
 	components: {
+		MuiCssBaseline: {
+			styleOverrides: `
+			::selection {
+				background-color: black;
+				color: white;
+			  }
+			`,
+		},
 		MuiTablePagination: {
 			styleOverrides: {
 				root: {
