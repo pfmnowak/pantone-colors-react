@@ -21,15 +21,10 @@ const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
 	const [productsCount, setProductsCount] = useState(0);
 	const [page, setPage] = useState(0);
+	const [productId, setProductId] = useState<string | null>(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const effectRan = useRef(false);
-
-	const handleOpen = (product: Product) => {
-		setModalOpen(true);
-		setProduct(product);
-	};
-	const handleClose = () => setModalOpen(false);
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * ROWS_PER_PAGE - productsCount) : 0;
@@ -37,13 +32,22 @@ const ProductsPage = () => {
 	useEffect(() => {
 		if (effectRan.current) {
 			const getData = async () => {
-				const url = `https://reqres.in/api/products?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
+				const url = productId
+					? `https://reqres.in/api/products?id=${productId}`
+					: `https://reqres.in/api/products?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
+
 				try {
 					const response = await fetch(url);
 					if (response.status === 200) {
 						const data = await response.json();
-						setProductsList(data.data);
-						setProductsCount(data.total);
+
+						if (data.data.constructor === Array) {
+							setProductsList(data.data);
+							setProductsCount(data.total);
+						} else {
+							setProductsList([data.data]);
+							setProductsCount(1);
+						}
 					} else {
 						throw new Error('Request failed');
 					}
@@ -57,15 +61,38 @@ const ProductsPage = () => {
 		return () => {
 			effectRan.current = true;
 		};
-	}, [page]);
+	}, [page, productId]);
 
-	const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+	const handleModalOpen = (product: Product) => {
+		setModalOpen(true);
+		setProduct(product);
+	};
+
+	const handleModalClose = () => setModalOpen(false);
+
+	const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
 		setPage(newPage);
+	};
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue = event.target.value;
+		const inputValueNum = +inputValue;
+		if (Number.isInteger(inputValueNum) && inputValueNum > 0) {
+			setProductId(inputValue);
+		} else if (inputValue === '') {
+			setProductId(null);
+		}
 	};
 
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
-			<TextField id='outlined-number' label='Search id' type='number' />
+			<TextField
+				id='outlined-number'
+				label='Search id'
+				type='number'
+				// value={productId}
+				onChange={handleInputChange}
+			/>
 			<TableContainer
 				component={Paper}
 				sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
@@ -82,7 +109,7 @@ const ProductsPage = () => {
 						{productsList?.map(item => (
 							<TableRow
 								key={item.id}
-								onClick={() => handleOpen(item)}
+								onClick={() => handleModalOpen(item)}
 								sx={{
 									backgroundColor: `${item.color}`,
 									height: `${ROW_HEIGHT}rem`,
@@ -116,14 +143,14 @@ const ProductsPage = () => {
 								rowsPerPage={ROWS_PER_PAGE}
 								count={productsCount}
 								page={page}
-								onPageChange={handleChangePage}
+								onPageChange={handlePageChange}
 							/>
 						</TableRow>
 					</TableFooter>
 				</Table>
 			</TableContainer>
 			{modalOpen && product && (
-				<ProductDetailsModal open={modalOpen} onClose={handleClose} product={product} />
+				<ProductDetailsModal open={modalOpen} onClose={handleModalClose} product={product} />
 			)}
 		</Paper>
 	);
