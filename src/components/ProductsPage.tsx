@@ -8,20 +8,18 @@ import {
 	TableHead,
 	TablePagination,
 	TableRow,
-	TextField,
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { Product } from '../types/types';
+import { API_URL, ROWS_PER_PAGE, ROW_HEIGHT } from '../constants/constants';
+import { EnteredProductId, Product } from '../types/types';
 import ProductDetailsModal from './ProductDetailsModal';
-
-const ROWS_PER_PAGE = 5;
-const ROW_HEIGHT = 6;
+import SearchField from './SearchField';
 
 const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
 	const [productsCount, setProductsCount] = useState(0);
 	const [page, setPage] = useState(0);
-	const [productId, setProductId] = useState<string | null>(null);
+	const [productId, setProductId] = useState<EnteredProductId>(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const effectRan = useRef(false);
@@ -31,11 +29,11 @@ const ProductsPage = () => {
 
 	useEffect(() => {
 		if (effectRan.current) {
+			console.log('effect raaaan | API CALL');
 			const getData = async () => {
 				const url = productId
-					? `https://reqres.in/api/products?id=${productId}`
-					: `https://reqres.in/api/products?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
-
+					? `${API_URL}?id=${productId}`
+					: `${API_URL}?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
 				try {
 					const response = await fetch(url);
 					if (response.status === 200) {
@@ -74,25 +72,9 @@ const ProductsPage = () => {
 		setPage(newPage);
 	};
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const inputValue = event.target.value;
-		const inputValueNum = +inputValue;
-		if (Number.isInteger(inputValueNum) && inputValueNum > 0) {
-			setProductId(inputValue);
-		} else if (inputValue === '') {
-			setProductId(null);
-		}
-	};
-
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
-			<TextField
-				id='outlined-number'
-				label='Search id'
-				type='number'
-				// value={productId}
-				onChange={handleInputChange}
-			/>
+			<SearchField setProductId={setProductId} />
 			<TableContainer
 				component={Paper}
 				sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}

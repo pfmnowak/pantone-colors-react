@@ -5,3 +5,5 @@ export type Product = {
 	color: string;
 	pantone_value: string;
 };
+
+export type EnteredProductId = string | null;

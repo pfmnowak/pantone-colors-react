@@ -99,10 +99,10 @@ const ProductDetailsModal = ({ open, onClose, product }: ModalProps) => {
 				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
 					Color of the Year: {product.year}
 				</Typography>
-				<Typography id='modal-modal-description' sx={{ mt: 2 }}>
+				<Box id='modal-modal-description' sx={{ mt: 2 }}>
 					{product.color}
 					<CopyToClipboardButton text={product.color} />
-				</Typography>
+				</Box>
 			</Box>
 		</Modal>
 	);
