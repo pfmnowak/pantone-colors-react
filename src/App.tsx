@@ -13,6 +13,33 @@ const theme = createTheme({
 			  }
 			`,
 		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					maxWidth: '20rem',
+					'& .MuiInputBase-root': {
+						color: 'white',
+					},
+					'& label': {
+						color: 'white',
+						'&.Mui-focused': {
+							color: 'green',
+						},
+					},
+					'& .MuiOutlinedInput-root': {
+						'& fieldset': {
+							borderColor: 'white',
+						},
+						'&:hover fieldset': {
+							borderColor: 'white',
+						},
+						'&.Mui-focused fieldset': {
+							borderColor: 'green',
+						},
+					},
+				},
+			},
+		},
 		MuiTablePagination: {
 			styleOverrides: {
 				root: {
