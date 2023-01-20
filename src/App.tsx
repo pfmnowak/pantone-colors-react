@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ProductsPage from './components/ProductsPage';
 
@@ -88,7 +89,9 @@ function App() {
 			<CssBaseline />
 			<div className='App'>
 				<header className='App-header'>
-					<ProductsPage />
+					<Routes>
+						<Route path='*' element={<ProductsPage />} />
+					</Routes>
 				</header>
 			</div>
 		</ThemeProvider>

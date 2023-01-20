@@ -6,10 +6,11 @@ import {
 	TableContainer,
 	TableFooter,
 	TableHead,
-	TablePagination,
 	TableRow,
 } from '@mui/material';
+import TablePagination from '@mui/material/TablePagination/TablePagination';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ROWS_PER_PAGE, ROW_HEIGHT } from '../constants/constants';
 import { Product } from '../types/types';
 import ProductDetailsModal from './ProductDetailsModal';
@@ -18,12 +19,12 @@ type ProductsTableProps = {
 	products: Product[] | undefined;
 	productsCount: number;
 	page: number;
-	setPage: (page: number) => void;
 };
 
-const ProductsTable = ({ products, productsCount, page, setPage }: ProductsTableProps) => {
+const ProductsTable = ({ products, productsCount, page }: ProductsTableProps) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [product, setProduct] = useState<Product | undefined>(undefined);
+	const navigate = useNavigate();
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * ROWS_PER_PAGE - productsCount) : 0;
@@ -36,7 +37,7 @@ const ProductsTable = ({ products, productsCount, page, setPage }: ProductsTable
 	const handleModalClose = () => setModalOpen(false);
 
 	const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-		setPage(newPage);
+		navigate(`?page=${newPage}`);
 	};
 
 	return (

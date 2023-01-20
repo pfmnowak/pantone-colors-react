@@ -3,16 +3,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Paper, TextField, Tooltip } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useEffect, useRef, useState } from 'react';
-import { EnteredProductId } from '../types/types';
+import { useNavigate } from 'react-router-dom';
 
-type SearchFieldProps = {
-	setProductId: (productId: EnteredProductId) => void;
-};
-
-const SearchField = ({ setProductId }: SearchFieldProps) => {
+const SearchField = () => {
 	const [searchValue, setSearchValue] = useState<string>('');
 	const textInput = useRef<HTMLInputElement>(null);
 	const effectRan = useRef(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (effectRan.current) {
@@ -27,9 +24,9 @@ const SearchField = ({ setProductId }: SearchFieldProps) => {
 	const handleInputChange = (inputValue: string) => {
 		const inputValueNum = +inputValue;
 		if (Number.isInteger(inputValueNum) && inputValueNum > 0) {
-			setProductId(inputValue);
+			navigate(`?id=${inputValue}`);
 		} else if (inputValue === '') {
-			setProductId(null);
+			navigate(`?page=${0}`);
 		}
 	};
 
