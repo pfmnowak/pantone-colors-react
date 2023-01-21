@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Alert, CircularProgress, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { API_URL, ROWS_PER_PAGE } from '../constants/constants';
@@ -9,6 +9,8 @@ import SearchField from './SearchField';
 const ProductsPage = () => {
 	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
 	const [productsCount, setProductsCount] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	const location = useLocation();
 	const query = new URLSearchParams(location.search);
@@ -17,13 +19,16 @@ const ProductsPage = () => {
 
 	useEffect(() => {
 		const getData = async () => {
+			setLoading(true);
 			const url = productId
 				? `${API_URL}?id=${productId}`
 				: `${API_URL}?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
 			try {
 				const response = await fetch(url);
+				setLoading(false);
 				if (response.status === 200) {
 					const data = await response.json();
+					setError(false);
 
 					if (data.data.constructor === Array) {
 						setProductsList(data.data);
@@ -36,8 +41,9 @@ const ProductsPage = () => {
 					throw new Error('Request failed');
 				}
 			} catch (error) {
+				setLoading(false);
+				setError(true);
 				console.error(error);
-				// ToDo display error
 			}
 		};
 		getData();
@@ -46,7 +52,15 @@ const ProductsPage = () => {
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
 			<SearchField />
-			<ProductsTable products={productsList} productsCount={productsCount} page={page} />
+			<Paper sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+				{loading && <CircularProgress color='success' />}
+				{error && (
+					<Alert variant='filled' severity='error'>
+						Could not fetch the data. Please try again
+					</Alert>
+				)}
+				<ProductsTable products={productsList} productsCount={productsCount} page={page} />
+			</Paper>
 		</Paper>
 	);
 };

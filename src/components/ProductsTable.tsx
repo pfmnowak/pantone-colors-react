@@ -1,5 +1,4 @@
 import {
-	Paper,
 	Table,
 	TableBody,
 	TableCell,
@@ -41,67 +40,62 @@ const ProductsTable = ({ products, productsCount, page }: ProductsTableProps) =>
 	};
 
 	return (
-		<div>
-			<TableContainer
-				component={Paper}
-				sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
-			>
-				<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
-					<TableHead>
-						<TableRow>
-							<TableCell>ID</TableCell>
-							<TableCell>Name</TableCell>
-							<TableCell align='center'>Year</TableCell>
+		<TableContainer>
+			<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
+				<TableHead>
+					<TableRow>
+						<TableCell>ID</TableCell>
+						<TableCell>Name</TableCell>
+						<TableCell align='center'>Year</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{products?.map(item => (
+						<TableRow
+							key={item.id}
+							onClick={() => handleModalOpen(item)}
+							sx={{
+								backgroundColor: `${item.color}`,
+								height: `${ROW_HEIGHT}rem`,
+								transition: 'all 0.2s',
+								opacity: 0.8,
+								'&:hover': {
+									opacity: 0.99,
+									cursor: 'pointer',
+									height: `${ROW_HEIGHT + 0.7}rem`,
+								},
+							}}
+						>
+							<TableCell component='th' scope='row'>
+								{item.id}
+							</TableCell>
+							<TableCell sx={{ textTransform: 'capitalize' }}>{item.name}</TableCell>
+							<TableCell align='center'>{item.year}</TableCell>
 						</TableRow>
-					</TableHead>
-					<TableBody>
-						{products?.map(item => (
-							<TableRow
-								key={item.id}
-								onClick={() => handleModalOpen(item)}
-								sx={{
-									backgroundColor: `${item.color}`,
-									height: `${ROW_HEIGHT}rem`,
-									transition: 'all 0.2s',
-									opacity: 0.8,
-									'&:hover': {
-										opacity: 0.99,
-										cursor: 'pointer',
-										height: `${ROW_HEIGHT + 0.7}rem`,
-									},
-								}}
-							>
-								<TableCell component='th' scope='row'>
-									{item.id}
-								</TableCell>
-								<TableCell sx={{ textTransform: 'capitalize' }}>{item.name}</TableCell>
-								<TableCell align='center'>{item.year}</TableCell>
-							</TableRow>
-						))}
-						{emptyRows > 0 && (
-							<TableRow sx={{ height: `${ROW_HEIGHT * emptyRows}rem` }}>
-								<TableCell colSpan={3} />
-							</TableRow>
-						)}
-					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TablePagination
-								labelRowsPerPage=''
-								rowsPerPageOptions={[ROWS_PER_PAGE]}
-								rowsPerPage={ROWS_PER_PAGE}
-								count={productsCount}
-								page={page}
-								onPageChange={handlePageChange}
-							/>
+					))}
+					{emptyRows > 0 && (
+						<TableRow sx={{ height: `${ROW_HEIGHT * emptyRows}rem` }}>
+							<TableCell colSpan={3} />
 						</TableRow>
-					</TableFooter>
-				</Table>
-			</TableContainer>
+					)}
+				</TableBody>
+				<TableFooter>
+					<TableRow>
+						<TablePagination
+							labelRowsPerPage=''
+							rowsPerPageOptions={[ROWS_PER_PAGE]}
+							rowsPerPage={ROWS_PER_PAGE}
+							count={productsCount}
+							page={productsCount <= 0 ? 0 : page}
+							onPageChange={handlePageChange}
+						/>
+					</TableRow>
+				</TableFooter>
+			</Table>
 			{modalOpen && product && (
 				<ProductDetailsModal open={modalOpen} onClose={handleModalClose} product={product} />
 			)}
-		</div>
+		</TableContainer>
 	);
 };
 
