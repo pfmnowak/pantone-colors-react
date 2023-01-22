@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/pantone-colors-react/static/css/main.17c6858b.css",
+    "main.js": "/pantone-colors-react/static/js/main.2ffacd49.js",
+    "static/media/background.jpg": "/pantone-colors-react/static/media/background.fb9324febaeebf3fc2d6.jpg",
+    "index.html": "/pantone-colors-react/index.html",
+    "main.17c6858b.css.map": "/pantone-colors-react/static/css/main.17c6858b.css.map",
+    "main.2ffacd49.js.map": "/pantone-colors-react/static/js/main.2ffacd49.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17c6858b.css",
+    "static/js/main.2ffacd49.js"
+  ]
+}
