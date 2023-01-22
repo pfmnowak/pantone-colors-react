@@ -1,6 +1,7 @@
-import { Alert, CircularProgress, Paper } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import { Alert, CircularProgress, IconButton, Paper, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL, ROWS_PER_PAGE } from '../constants/constants';
 import { Product } from '../types/types';
 import ProductsTable from './ProductsTable';
@@ -11,7 +12,7 @@ const ProductsPage = () => {
 	const [productsCount, setProductsCount] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
-
+	const navigate = useNavigate();
 	const location = useLocation();
 	const query = new URLSearchParams(location.search);
 	let page = parseInt(query.get('page') || '0', 10);
@@ -56,6 +57,10 @@ const ProductsPage = () => {
 		getData();
 	}, [page, productId]);
 
+	const handleBtnClick = () => {
+		navigate(`?page=${0}`);
+	};
+
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
 			<SearchField />
@@ -75,6 +80,13 @@ const ProductsPage = () => {
 				)}
 				{!error && (
 					<ProductsTable products={productsList} productsCount={productsCount} page={page} />
+				)}
+				{productsCount <= 1 && (
+					<Tooltip title='Take me home'>
+						<IconButton onClick={handleBtnClick}>
+							<HomeIcon color='success' />
+						</IconButton>
+					</Tooltip>
 				)}
 			</Paper>
 		</Paper>
