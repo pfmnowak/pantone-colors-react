@@ -1,6 +1,6 @@
-# product-list-react
+# pantone-colors-react
 
-This React app displays the list of products form the API and allows to filter them and view their details.
+This React app displays the list of Pantone colors of the year form the API and allows to filter them and view their details.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -8,8 +8,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - React
 - TypeScript
-- MUI
+- MUI, Material Icons
 - Eslint & Prettier
+- Jest & React Testing Library
+
+## Possible imporvements
+
+- Add more Unit Tests
+- Add Integration Tests
+- Add media queries to provide better responiveness
+- Use some state management library
 
 ## Available Scripts
 
