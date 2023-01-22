@@ -83,7 +83,7 @@ const ProductsPage = () => {
 				)}
 				{productsCount <= 1 && (
 					<Tooltip title='Take me home'>
-						<IconButton onClick={handleBtnClick}>
+						<IconButton onClick={handleBtnClick} aria-label='go home'>
 							<HomeIcon color='success' />
 						</IconButton>
 					</Tooltip>

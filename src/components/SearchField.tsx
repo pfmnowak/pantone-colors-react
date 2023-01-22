@@ -43,7 +43,7 @@ const SearchField = () => {
 						<InputAdornment position='start'>
 							{searchValue ? (
 								<Tooltip title='Clear search input'>
-									<IconButton onClick={handleClearBtnClick}>
+									<IconButton onClick={handleClearBtnClick} aria-label='clear the input'>
 										<ClearIcon color='error' />
 									</IconButton>
 								</Tooltip>

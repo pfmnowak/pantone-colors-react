@@ -5,9 +5,9 @@ import {
 	TableContainer,
 	TableFooter,
 	TableHead,
+	TablePagination,
 	TableRow,
 } from '@mui/material';
-import TablePagination from '@mui/material/TablePagination/TablePagination';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROWS_PER_PAGE, ROW_HEIGHT } from '../constants/constants';
