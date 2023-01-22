@@ -14,7 +14,10 @@ const ProductsPage = () => {
 
 	const location = useLocation();
 	const query = new URLSearchParams(location.search);
-	const page = parseInt(query.get('page') || '0', 10);
+	let page = parseInt(query.get('page') || '0', 10);
+	if (page < 0) {
+		page = 0;
+	}
 	const productId = query.get('id');
 
 	useEffect(() => {
@@ -31,8 +34,12 @@ const ProductsPage = () => {
 					setError(false);
 
 					if (data.data.constructor === Array) {
-						setProductsList(data.data);
-						setProductsCount(data.total);
+						if (data.data.length) {
+							setProductsList(data.data);
+							setProductsCount(data.total);
+						} else {
+							setError(true);
+						}
 					} else {
 						setProductsList([data.data]);
 						setProductsCount(1);
@@ -52,14 +59,23 @@ const ProductsPage = () => {
 	return (
 		<Paper elevation={3} sx={{ padding: '2rem', backgroundColor: 'rgba(205, 205, 205, 0.5)' }}>
 			<SearchField />
-			<Paper sx={{ padding: '2rem', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+			<Paper
+				sx={{
+					width: '75vw',
+					maxWidth: '55rem',
+					padding: '2rem',
+					backgroundColor: 'rgba(0, 0, 0, 0.8)',
+				}}
+			>
 				{loading && <CircularProgress color='success' />}
 				{error && (
 					<Alert variant='filled' severity='error'>
 						Could not fetch the data. Please try again
 					</Alert>
 				)}
-				<ProductsTable products={productsList} productsCount={productsCount} page={page} />
+				{!error && (
+					<ProductsTable products={productsList} productsCount={productsCount} page={page} />
+				)}
 			</Paper>
 		</Paper>
 	);

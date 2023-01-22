@@ -41,7 +41,7 @@ const ProductsTable = ({ products, productsCount, page }: ProductsTableProps) =>
 
 	return (
 		<TableContainer>
-			<Table sx={{ width: '70vw', maxWidth: '50rem' }} aria-label='simple table'>
+			<Table aria-label='simple table'>
 				<TableHead>
 					<TableRow>
 						<TableCell>ID</TableCell>
