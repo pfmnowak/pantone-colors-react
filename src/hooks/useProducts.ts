@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Product } from './../types/types';
 
@@ -11,24 +12,19 @@ const useProducts = (url: string) => {
 		const getData = async () => {
 			setLoading(true);
 			try {
-				const response = await fetch(url);
+				const { data } = await axios.get(url);
 				setLoading(false);
-				if (response.status === 200) {
-					const data = await response.json();
-					setHasError(false);
-					if (data.data.constructor === Array) {
-						if (data.data.length) {
-							setProductsList(data.data);
-							setProductsCount(data.total);
-						} else {
-							setHasError(true);
-						}
+				setHasError(false);
+				if (data.data.constructor === Array) {
+					if (data.data.length) {
+						setProductsList(data.data);
+						setProductsCount(data.total);
 					} else {
-						setProductsList([data.data]);
-						setProductsCount(1);
+						setHasError(true);
 					}
 				} else {
-					throw new Error('Request failed');
+					setProductsList([data.data]);
+					setProductsCount(1);
 				}
 			} catch (error) {
 				setLoading(false);
