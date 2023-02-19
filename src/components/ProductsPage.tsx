@@ -1,61 +1,31 @@
 import HomeIcon from '@mui/icons-material/Home';
 import { Alert, CircularProgress, IconButton, Paper, Tooltip } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL, ROWS_PER_PAGE } from '../constants/constants';
-import { Product } from '../types/types';
+import useProducts from '../hooks/useProducts';
 import ProductsTable from './ProductsTable';
 import SearchField from './SearchField';
 
 const ProductsPage = () => {
-	const [productsList, setProductsList] = useState<Product[] | undefined>(undefined);
-	const [productsCount, setProductsCount] = useState(0);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const query = new URLSearchParams(location.search);
-	let page = parseInt(query.get('page') || '0', 10);
-	if (page < 0) {
-		page = 0;
-	}
-	const productId = query.get('id');
 
-	useEffect(() => {
-		const getData = async () => {
-			setLoading(true);
-			const url = productId
-				? `${API_URL}?id=${productId}`
-				: `${API_URL}?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
-			try {
-				const response = await fetch(url);
-				setLoading(false);
-				if (response.status === 200) {
-					const data = await response.json();
-					setError(false);
+	let page = 0;
 
-					if (data.data.constructor === Array) {
-						if (data.data.length) {
-							setProductsList(data.data);
-							setProductsCount(data.total);
-						} else {
-							setError(true);
-						}
-					} else {
-						setProductsList([data.data]);
-						setProductsCount(1);
-					}
-				} else {
-					throw new Error('Request failed');
-				}
-			} catch (error) {
-				setLoading(false);
-				setError(true);
-				console.error(error);
-			}
-		};
-		getData();
-	}, [page, productId]);
+	const getURL = () => {
+		const query = new URLSearchParams(location.search);
+		page = parseInt(query.get('page') || '0', 10);
+		if (page < 0) {
+			page = 0;
+		}
+		const productId = query.get('id');
+
+		return productId
+			? `${API_URL}?id=${productId}`
+			: `${API_URL}?page=${page + 1}&per_page=${ROWS_PER_PAGE}`;
+	};
+
+	const { productsList, productsCount, loading, hasError } = useProducts(getURL());
 
 	const handleBtnClick = () => {
 		navigate(`?page=${0}`);
@@ -73,12 +43,12 @@ const ProductsPage = () => {
 				}}
 			>
 				{loading && <CircularProgress color='success' />}
-				{error && (
+				{hasError && (
 					<Alert variant='filled' severity='error'>
 						Could not fetch the data. Please try again
 					</Alert>
 				)}
-				{!error && (
+				{!hasError && (
 					<ProductsTable products={productsList} productsCount={productsCount} page={page} />
 				)}
 				{productsCount <= 1 && (
