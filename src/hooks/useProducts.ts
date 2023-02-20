@@ -29,7 +29,6 @@ const useProducts = (url: string) => {
 			} catch (error) {
 				setLoading(false);
 				setHasError(true);
-				console.error(error);
 			}
 		};
 		getData();
